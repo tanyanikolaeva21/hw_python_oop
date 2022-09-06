@@ -11,7 +11,7 @@ class InfoMessage:
             distance: float,
             speed: float,
             calories: float
-                ) -> None:
+    ) -> None:
         self.training_type = training_type
         self.duration = duration
         self.distance = distance
@@ -94,7 +94,7 @@ class SportsWalking(Training):
         return ((coeff_calorie_3 * self.weight + (self.get_mean_speed() **
             coeff_calorie_5 // self.height) * coeff_calorie_4 * self.weight) *
             (self.duration * self.HOUR_IN_MIN)
-                )
+        )
 
 
 class Swimming(Training):
