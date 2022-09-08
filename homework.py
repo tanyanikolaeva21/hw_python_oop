@@ -129,7 +129,7 @@ class Swimming(Training):
 def read_package(
         workout_type: Training,
         data: list
-            ):
+                ):
     """Прочитать данные полученные от датчиков."""
 
     training_type: Dict[str, Tuple[str, ...]] = {
