@@ -13,6 +13,7 @@ class InfoMessage:
     calories: float
 
     def get_message(self) -> str:
+        """Получаем сообщение."""
         return (f'Тип тренировки: {self.training_type}; '
                 f'Длительность: {self.duration:.3f} ч.; '
                 f'Дистанция: {self.distance:.3f} км; '
@@ -33,7 +34,8 @@ class Training:
             duration: float,
             weight: float
     ) -> None:
-        """Время тренировки в минутах."""
+        """action - количество шагов (гребков), duration -
+        время тренировки в ч., weightв - вес спортсмена."""
         self.action = action
         self.duration = duration
         self.weight = weight
@@ -87,6 +89,7 @@ class SportsWalking(Training):
             weight: float,
             height: float
     ) -> None:
+        """height - рост."""
         super().__init__(action, duration, weight)
         self.height = height
 
@@ -112,6 +115,8 @@ class Swimming(Training):
             length_pool: float,
             count_pool: int
     ) -> None:
+        """length_pool - длина бассейна в м., count_pool- кол-во раз,
+        которые проплыл бассейн спортсмен"""
         super().__init__(action, duration, weight)
         self.length_pool = length_pool
         self.count_pool = count_pool
@@ -126,12 +131,10 @@ class Swimming(Training):
                 * self.COEFF_CALORIE_7 * self.weight)
 
 
-def read_package(
-        workout_type: Training,
-        data: list):
+def read_package(workout_type: str, data: list):
     """Прочитать данные полученные от датчиков."""
 
-    training_type: Dict[str, Tuple[str, ...]] = {
+    training_type: Dict[str, Tuple[Training]] = {
         'SWM': Swimming,
         'RUN': Running,
         'WLK': SportsWalking
