@@ -35,7 +35,7 @@ class Training:
             weight: float
     ) -> None:
         """action - количество шагов (гребков), duration -
-        время тренировки в ч., weightв - вес спортсмена."""
+        время тренировки в ч., weightв - вес спортсмена в кг."""
         self.action = action
         self.duration = duration
         self.weight = weight
@@ -89,11 +89,14 @@ class SportsWalking(Training):
             weight: float,
             height: float
     ) -> None:
-        """height - рост."""
+        """action - количество шагов, duration -
+        время тренировки в ч., weight - вес спортсмена в кг,
+        height - рост в м."""
         super().__init__(action, duration, weight)
         self.height = height
 
     def get_spent_calories(self) -> float:
+        """Получить количество затраченных калорий."""
         return ((self.COEFF_CALORIE_3 * self.weight + (self.get_mean_speed()
                 ** self.COEFF_CALORIE_5 // self.height) * self.COEFF_CALORIE_4
                 * self.weight) * self.duration_in_min()
@@ -115,18 +118,21 @@ class Swimming(Training):
             length_pool: float,
             count_pool: int
     ) -> None:
-        """length_pool - длина бассейна в м., count_pool- кол-во раз,
+        """action - количество гребков, duration -
+        время тренировки в ч., weight - вес спортсмена в кг,
+        length_pool - длина бассейна в м., count_pool- кол-во раз,
         которые проплыл бассейн спортсмен"""
         super().__init__(action, duration, weight)
         self.length_pool = length_pool
         self.count_pool = count_pool
 
     def get_mean_speed(self) -> float:
+        """Получаем среднюю скорость."""
         return (self.length_pool * self.count_pool / self.M_IN_KM
                 / self.duration)
 
     def get_spent_calories(self) -> float:
-
+        """Получить количество затраченных калорий."""
         return ((self.get_mean_speed() + self.COEFF_CALORIE_6)
                 * self.COEFF_CALORIE_7 * self.weight)
 
@@ -134,13 +140,13 @@ class Swimming(Training):
 def read_package(workout_type: str, data: list):
     """Прочитать данные полученные от датчиков."""
 
-    training_type: Dict[str, Tuple[Training]] = {
+    training_type: Dict[str, list[Training]] = {
         'SWM': Swimming,
         'RUN': Running,
         'WLK': SportsWalking
     }
     if workout_type not in training_type:
-        raise ValueError('Неизвестный тип тренировки' + ' ' + workout_type)
+        raise ValueError(f'Неизвестный тип тренировки {workout_type}')
     return training_type[workout_type](*data)
 
 
